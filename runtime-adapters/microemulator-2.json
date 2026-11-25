@@ -1,0 +1,9 @@
+{
+  "id": "microemulator-2",
+  "testedVersions": ["2.0.4"],
+  "strategy": "Desktop JVM -javaagent at launch; no JVMTI requirement in the MIDlet itself",
+  "loader": "org.microemu.app.classloader.MIDletClassLoader.classLoadByParent",
+  "network": ["javax.microedition.io.Connector.open", "org.microemu.cldc.http.Connection.openInputStream/openOutputStream", "org.microemu.cldc.socket.SocketConnection.openInputStream/openOutputStream"],
+  "display": "javax.microedition.lcdui.Display.setCurrent",
+  "unsupported": ["native methods", "constructors", "static initializers", "unloaded classes outside selected JAR", "datagram payloads", "application-specific encryption/packet decoding", "automatic async causal propagation", "instruction-level bytecode offsets", "direct field-write events"]
+}

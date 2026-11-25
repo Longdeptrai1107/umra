@@ -1,0 +1,63 @@
+{
+  "name": "umra",
+  "version": "1.0.0",
+  "description": "Universal MicroEmulator Realtime Analyzer",
+  "author": "UMRA contributors",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "main": "dist/desktop/main.cjs",
+  "scripts": {
+    "build:agent": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-agent.ps1",
+    "build:app": "node scripts/build.mjs",
+    "build": "npm run build:agent && npm run typecheck && npm run build:app",
+    "typecheck": "tsc --noEmit",
+    "dev": "node scripts/dev.mjs",
+    "start": "electron .",
+    "backend": "tsx backend/src/cli.ts",
+    "test": "tsx --test tests/backend.test.ts",
+    "test:e2e": "tsx tests/e2e.ts",
+    "test:game": "tsx tests/game-smoke.ts",
+    "package": "npm run build && electron-builder --win --dir",
+    "package:zip": "npm run build && electron-builder --win zip"
+  },
+  "dependencies": {
+    "@tanstack/react-virtual": "^3.13.18",
+    "express": "^5.1.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "sql.js": "^1.14.0",
+    "ws": "^8.18.3",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/sql.js": "^1.4.9",
+    "@types/ws": "^8.18.1",
+    "electron": "^45.5.0",
+    "electron-builder": "^26.0.12",
+    "esbuild": "^0.27.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2"
+  },
+  "build": {
+    "appId": "local.umra.analyzer",
+    "productName": "UMRA",
+    "asar": true,
+    "directories": { "output": "release" },
+    "files": ["dist/**", "package.json"],
+    "extraResources": [
+      { "from": "instrumentation/target/umra-agent.jar", "to": "umra-agent.jar" },
+      { "from": "backend/migrations", "to": "migrations" },
+      { "from": "docs", "to": "docs" }
+    ],
+    "asarUnpack": ["node_modules/sql.js/dist/*.wasm"],
+    "win": { "target": ["zip"], "signAndEditExecutable": false }
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+release/
+.umra/
+instrumentation/target/
+instrumentation/lib/
+tests/midlet/target/
+artifacts/
+*.log
